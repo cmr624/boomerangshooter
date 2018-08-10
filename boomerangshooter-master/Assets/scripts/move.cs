@@ -22,13 +22,13 @@ public class move : MonoBehaviour {
         if (Input.GetAxis("Horizontal") != 0)
         {
             isMoving = true;
-            pos.x = speed * Time.deltaTime * Input.GetAxis("Horizontal");
+            pos.x += speed * Time.deltaTime * Input.GetAxis("Horizontal");
         }
 
         if (Input.GetAxis("Vertical") != 0)
         {
             isMoving = true;
-            pos.y = speed * Time.deltaTime * Input.GetAxis("Vertical");
+            pos.y += speed * Time.deltaTime * Input.GetAxis("Vertical");
         }
 
         
