@@ -11,10 +11,15 @@ public class Shoot : MonoBehaviour {
 	private bool ableToBePulled;
 
 	private Animator animator;
-	// Use this for initialization
-	void Start () {
 
-        animator = GetComponent<Animator>();
+	public bool animatorBool = false;
+	// Use this for initialization
+	void Start () 
+	{
+		if (animatorBool)
+		{
+			animator = GetComponent<Animator>();
+		}
 	}
 	
 	// Update is called once per frame
@@ -23,14 +28,17 @@ public class Shoot : MonoBehaviour {
 		{
 			Vector2 mousePosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			FireBullet(mousePosition);
-			animator.SetTrigger("shoot");
+			if (animatorBool)
+			{
+				animator.SetTrigger("shoot");
+			}
 		}
 		if (Input.GetButtonDown("Fire2")) {
 
             ShootManager.Instance.Recall();
 		}
 	}
-		
+
 
 	public void FireBullet(Vector3 mousePosition)
 	{
@@ -38,8 +46,8 @@ public class Shoot : MonoBehaviour {
 		bullet.GetComponent<State> ().state = false;
 		bullet.GetComponent<Rigidbody2D> ().velocity = (mousePosition - transform.position).normalized * speed;
         bullet.GetComponent<Collider2D>().isTrigger = true;
-
-        Destroy(bullet, 3f);
+		
+		Destroy(bullet, 5f);
 
         //ShootManager is a manager for every bullet that is fired
         //The instance allows us to access the current ShootManager from anywhere in the project

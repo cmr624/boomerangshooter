@@ -9,16 +9,22 @@ public class move : MonoBehaviour {
 	private Animator animator;
 
 	private bool isMoving;
+	public bool animatorBool = false;
+
+	private Rigidbody2D rb;
+
+	private Vector3 pos;
 	// Use this for initialization
 	void Start ()
 	{
-		animator = GetComponent<Animator>();
+		rb = GetComponent<Rigidbody2D>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		Vector3 pos = transform.position;
 
+	// Update is called once per frame
+	void Update () 
+	{
+		/*
+		pos = transform.position;
         if (Input.GetAxis("Horizontal") != 0)
         {
             isMoving = true;
@@ -29,20 +35,17 @@ public class move : MonoBehaviour {
         {
             isMoving = true;
             pos.y += speed * Time.deltaTime * Input.GetAxis("Vertical");
-        }
+        }*/
 
-        
-		if (isMoving)
-		{
-			animator.SetTrigger("move");
-		}
-		else
-		{
-			animator.SetTrigger("idle");
-		}
 
-		transform.position = pos;
-		FaceMouse ();
+		pos.x = speed * Input.GetAxis("Horizontal");
+		pos.y = speed * Input.GetAxis("Vertical");
+		rb.velocity = pos;
+		//Debug.Log(pos);
+
+		//rb.velocity += Vector2(speed * Time.deltaTime * Input.GetAxis("horizontal"), speed * Time.deltaTime * Input.GetAxis("Vertical"));
+
+		//FaceMouse ();
 	}
 
 
@@ -55,7 +58,7 @@ public class move : MonoBehaviour {
 	}
 
 
-	void OnCollisionEnter2D(Collision2D col)
+	void OnTriggerEnter2D(Collider2D col)
 	{
 		if (col.gameObject.tag == "bullet") 
 		{

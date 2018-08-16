@@ -4,4 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/newstyletest.unity
+    guid: 350c2f4af17f546f2897f334e33870ce
+  m_configObjects: {}

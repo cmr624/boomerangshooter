@@ -24,7 +24,7 @@ public class ShootManager : MonoBehaviour {
 
     private void Update()
     {
-        Debug.Log("Number of shots in existence: " + allShots.Count);
+        //Debug.Log("Number of shots in existence: " + allShots.Count);
     }
 
     public void Recall()
@@ -37,7 +37,6 @@ public class ShootManager : MonoBehaviour {
             //This all recalls one bullet
             //bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
             bullet.GetComponent<State>().state = true;
-            bullet.GetComponent<Collider2D>().isTrigger = false;
             bullet.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f);
         }
     }
