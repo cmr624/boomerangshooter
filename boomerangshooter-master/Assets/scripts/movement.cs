@@ -53,10 +53,12 @@ public class movement : MonoBehaviour
 		
 		if (isStunned)
 		{
-			//freeze the position
-			transform.position = frozenPos;
-			stunnedTimer -= Time.deltaTime;
-			
+            //freeze the position
+            //transform.position = frozenPos;
+            rb.velocity = new Vector2(0f, 0f);
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+            stunnedTimer -= Time.deltaTime;
+            
 			//check if the enemy should be dead
 			if (stunnedTimer < 0)
 			{
@@ -67,25 +69,29 @@ public class movement : MonoBehaviour
 					GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 255f);
 					//reset timer
 					stunnedTimer = 5f;
+                    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 				}
 			}
 		}
 		
 		if (isDead)
 		{
-			deathTimer -= Time.deltaTime;
+            deathTimer -= Time.deltaTime;
 			if (deathTimer < 0)
-			{
-				Destroy(this.gameObject);
-			}
-		}
+            {
+                manager.GetComponent<Score>().scoreNum += score;
+                manager.GetComponent<Combo>().comboTimer = comboTimer;
+                manager.GetComponent<Combo>().comboNum += 1;
+                Destroy(this.gameObject);
+                GameObject.FindGameObjectWithTag("Player").GetComponent<move>().currentDashCooldownTime = -1f;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<move>().currentDashCooldownTime = -1f;
+            }
+        }
 	}
 
 	void OnDestroy()
 	{
-		manager.GetComponent<Score>().scoreNum += score;
-		manager.GetComponent<Combo>().comboTimer = comboTimer;
-		manager.GetComponent<Combo>().comboNum += 1;
+		
 	}
 	void OnTriggerEnter2D(Collider2D col)
 	{
@@ -100,7 +106,7 @@ public class movement : MonoBehaviour
 			
 				GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 0f);
 				isStunned = true;
-				frozenPos = transform.position;
+				//frozenPos = transform.position;
 			}
 			else if (col.gameObject.GetComponent<State>().state && isStunned)
 			{
@@ -116,4 +122,5 @@ public class movement : MonoBehaviour
 			}
 		}
 	}
+    
 }

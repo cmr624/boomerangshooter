@@ -1,15 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class move : MonoBehaviour {
 
 	public float speed;
-
+    public float dash;
+    public float dashcooldown = 3f;
+    public TextMeshProUGUI restart;
+    [HideInInspector]
+    public float currentDashCooldownTime;
 	private Animator animator;
 
+    public bool restartBool = false;
 	private bool isMoving;
-	public bool animatorBool = false;
+    private bool showRestart = false;
 
 	private Rigidbody2D rb;
 
@@ -20,56 +25,36 @@ public class move : MonoBehaviour {
 	{
 		rb = GetComponent<Rigidbody2D>();
 		pos.z = -1f;
-	}
+        currentDashCooldownTime = 0f;
+        restart.enabled = false;
+
+    }
 
 	// Update is called once per frame
 	void Update () 
 	{
-		/*
-		pos = transform.position;
-        if (Input.GetAxis("Horizontal") != 0)
-        {
-            isMoving = true;
-            pos.x += speed * Time.deltaTime * Input.GetAxis("Horizontal");
-        }
-
-        if (Input.GetAxis("Vertical") != 0)
-        {
-            isMoving = true;
-            pos.y += speed * Time.deltaTime * Input.GetAxis("Vertical");
-        }*/
-
-		/*float h, v;
-		h = Input.GetAxis("Horizontal");
-		v = Input.GetAxis("Vertical");
-		if (Mathf.Abs(h) > 0.01f)
-		{
-			pos.x = speed;
-		}
-		else
-		{
-			pos.x = 0.0f;
-		}
-		if (Mathf.Abs(v) > 0.01f)
-		{
-			pos.y = speed;
-		}
-		else
-		{
-			pos.y = 0.0f;
-		}*/
 		pos.x = speed * Input.GetAxis("Horizontal");
 		pos.y = speed * Input.GetAxis("Vertical");
-		//rb.AddForce(pos, ForceMode2D.);
-		//rb.AddForce(pos, ForceMode.VelocityChange);
 		rb.velocity = pos;
 
-		//Debug.Log(pos);
+        currentDashCooldownTime -= Time.deltaTime;
+        if((currentDashCooldownTime < 0f) & (Input.GetButtonDown("Jump")))
+        {
+            pos *= (dash * 100);
+            rb.AddForce(pos);
+            currentDashCooldownTime = dashcooldown;
+        }
+        if (restart.enabled & Input.GetKey((KeyCode.R)))
+        {
+            restart.enabled = false;
+            restartBool = true;
+        }
+        //Debug.Log(pos);
 
-		//rb.velocity += Vector2(speed * Time.deltaTime * Input.GetAxis("horizontal"), speed * Time.deltaTime * Input.GetAxis("Vertical"));
+            //rb.velocity += Vector2(speed * Time.deltaTime * Input.GetAxis("horizontal"), speed * Time.deltaTime * Input.GetAxis("Vertical"));
 
-		//FaceMouse ();
-	}
+            //FaceMouse ();
+    }
 	
 	void FaceMouse()
 	{
@@ -91,4 +76,13 @@ public class move : MonoBehaviour {
 			}
 		}
 	}
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Enemy")
+        {
+            Time.timeScale = .1f;
+            //GAME OVER
+            restart.enabled = true;
+        }
+    }
 }

@@ -6,7 +6,8 @@ public class ShootManager : MonoBehaviour {
 
     //This is the singleton
     public static ShootManager Instance { get; private set; }
-
+    public float backSpeed = 40f;
+    //public Transform player;
     [HideInInspector] //this hides public variables from the inspector
     public List<GameObject> allShots;
 
@@ -51,8 +52,14 @@ public class ShootManager : MonoBehaviour {
                 yield break;
             }
 
-            bullet.transform.position = Vector2.MoveTowards(bullet.transform.position, PlayerManager.Instance.player.transform.position, .9f);
+            //bullet.transform.position = Vector2.MoveTowards(bullet.transform.position, PlayerManager.Instance.player.transform.position, .9f);
 
+            Vector2 distance = new Vector2(PlayerManager.Instance.player.transform.position.x - bullet.transform.position.x, PlayerManager.Instance.player.transform.position.y - bullet.transform.position.y);
+            distance = distance.normalized;
+            distance *= (backSpeed);
+            bullet.GetComponent<Rigidbody2D>().velocity = distance;
+            //Debug.Log(distance);
+            
             //this line tells the coroutine to wait for one frame
 
             yield return null;

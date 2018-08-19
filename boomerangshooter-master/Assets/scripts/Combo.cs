@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class Combo : MonoBehaviour
 {
-	[HideInInspector] 
+	
 	public float comboTimer = 3f;
-	public int comboNum = 0;
+    [HideInInspector]
+    public int comboNum = 0;
+    private SpawnEnemiesInWaves spawner;
 
 	// Use this for initialization
 	void Start () 
 	{
-		
+        spawner = GetComponent<SpawnEnemiesInWaves>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		comboTimer -= Time.deltaTime;
+        //if (spawner.state != SpawnEnemiesInWaves.SpawnState.WAITING)
+        //{
+            comboTimer -= Time.deltaTime;
+        //}
 		if (comboTimer < 0)
 		{
 			comboNum = 0;

@@ -6,13 +6,12 @@ public class Shoot : MonoBehaviour {
 
 	public GameObject bulletPrefab;
 	public float speed;
-	public float backSpeed;
 
 	private bool ableToBePulled;
 
 	public Transform player;
 
-	public int ammo = 8; 
+	public int ammo; 
 
 	private ShootManager sm;
 	

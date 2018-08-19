@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212941671096856442}
   - component: {fileID: 114472273832384200}
   - component: {fileID: 50771744696846978}
-  - component: {fileID: 60400363105071726}
+  - component: {fileID: 60981920721113258}
   m_Layer: 0
   m_Name: enemy
   m_TagString: Enemy
@@ -63,7 +63,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &60400363105071726
+--- !u!60 &60981920721113258
 PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -105,7 +105,7 @@ MonoBehaviour:
   comboTimer: 4
   score: 10
   minDist: 1
-  movementSpeed: 10
+  movementSpeed: 5
   manager: {fileID: 0}
 --- !u!212 &212941671096856442
 SpriteRenderer:
