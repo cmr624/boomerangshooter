@@ -58,8 +58,8 @@
       <file leaf-file-name="CameraFollow.cs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/scripts/CameraFollow.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="8" lean-forward="true" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+            <state relative-caret-position="300">
+              <caret line="20" column="45" lean-forward="false" selection-start-line="20" selection-start-column="45" selection-end-line="20" selection-end-column="45" />
               <folding>
                 <marker date="1534692363510" expanded="true" signature="6:78" ph="..." />
                 <marker date="1534692363510" expanded="true" signature="122:870" ph="{...}" />
@@ -325,12 +325,12 @@
       <option name="presentableId" value="Default" />
       <updated>1534369975517</updated>
       <workItem from="1534369979427" duration="793000" />
-      <workItem from="1534432569668" duration="28245000" />
+      <workItem from="1534432569668" duration="28328000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29038000" />
+    <option name="totallyTimeSpent" value="29121000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -342,7 +342,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1430" height="878" extended-state="6" />
+    <frame x="0" y="22" width="1430" height="878" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -776,8 +776,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/scripts/CameraFollow.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="8" lean-forward="true" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+        <state relative-caret-position="300">
+          <caret line="20" column="45" lean-forward="false" selection-start-line="20" selection-start-column="45" selection-end-line="20" selection-end-column="45" />
           <folding>
             <marker date="1534692363510" expanded="true" signature="6:78" ph="..." />
             <marker date="1534692363510" expanded="true" signature="122:870" ph="{...}" />
