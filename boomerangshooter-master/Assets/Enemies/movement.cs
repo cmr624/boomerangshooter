@@ -1,22 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public class movement : MonoBehaviour
 {
 
-	private Animator animator;
 
 	private Transform player;
-	public bool animatorBool = false;
 	private bool isStunned;
 	private bool isDead;
 	private float stunnedTimer;
 	private float deathTimer;
 
+	public float comboTimer = 4f;
+	
+	public float score;
 	public float minDist;
 	public float movementSpeed;
 
+	public GameObject manager;
+	
 	private Rigidbody2D rb;
 
 	private Vector2 frozenPos;
@@ -28,7 +33,7 @@ public class movement : MonoBehaviour
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 		rb = GetComponent<Rigidbody2D>();
 		stunnedTimer = 5f;
-		deathTimer = 2f;
+		deathTimer = .9f;
 		
 		// if the enemy is in a stunned state
 		isStunned = false;
@@ -41,20 +46,28 @@ public class movement : MonoBehaviour
 		if (!isStunned)
 		{
 			Vector2 distance = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y);
+			distance = distance.normalized;
+			distance *= (movementSpeed + Mathf.PerlinNoise(distance.x, distance.y));
 			rb.velocity = distance;
 		}
 		
 		if (isStunned)
 		{
+			//freeze the position
 			transform.position = frozenPos;
-			
 			stunnedTimer -= Time.deltaTime;
 			
+			//check if the enemy should be dead
 			if (stunnedTimer < 0)
 			{
-				isStunned = false;
-				GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 255f);
-				stunnedTimer = 5f;
+				if (!isDead)
+				{
+					isStunned = false;
+					//dev art stuff, add animator here
+					GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 255f);
+					//reset timer
+					stunnedTimer = 5f;
+				}
 			}
 		}
 		
@@ -66,6 +79,13 @@ public class movement : MonoBehaviour
 				Destroy(this.gameObject);
 			}
 		}
+	}
+
+	void OnDestroy()
+	{
+		manager.GetComponent<Score>().scoreNum += score;
+		manager.GetComponent<Combo>().comboTimer = comboTimer;
+		manager.GetComponent<Combo>().comboNum += 1;
 	}
 	void OnTriggerEnter2D(Collider2D col)
 	{

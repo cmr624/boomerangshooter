@@ -14,10 +14,12 @@ public class move : MonoBehaviour {
 	private Rigidbody2D rb;
 
 	private Vector3 pos;
+
 	// Use this for initialization
 	void Start ()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		pos.z = -1f;
 	}
 
 	// Update is called once per frame
@@ -37,18 +39,38 @@ public class move : MonoBehaviour {
             pos.y += speed * Time.deltaTime * Input.GetAxis("Vertical");
         }*/
 
-
+		/*float h, v;
+		h = Input.GetAxis("Horizontal");
+		v = Input.GetAxis("Vertical");
+		if (Mathf.Abs(h) > 0.01f)
+		{
+			pos.x = speed;
+		}
+		else
+		{
+			pos.x = 0.0f;
+		}
+		if (Mathf.Abs(v) > 0.01f)
+		{
+			pos.y = speed;
+		}
+		else
+		{
+			pos.y = 0.0f;
+		}*/
 		pos.x = speed * Input.GetAxis("Horizontal");
 		pos.y = speed * Input.GetAxis("Vertical");
+		//rb.AddForce(pos, ForceMode2D.);
+		//rb.AddForce(pos, ForceMode.VelocityChange);
 		rb.velocity = pos;
+
 		//Debug.Log(pos);
 
 		//rb.velocity += Vector2(speed * Time.deltaTime * Input.GetAxis("horizontal"), speed * Time.deltaTime * Input.GetAxis("Vertical"));
 
 		//FaceMouse ();
 	}
-
-
+	
 	void FaceMouse()
 	{
 		Vector3 mousePosition = Input.mousePosition;

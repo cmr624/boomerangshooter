@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4302476807480866}
   - component: {fileID: 212941671096856442}
   - component: {fileID: 114472273832384200}
-  - component: {fileID: 61852062086945912}
   - component: {fileID: 50771744696846978}
+  - component: {fileID: 60400363105071726}
   m_Layer: 0
   m_Name: enemy
   m_TagString: Enemy
@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1223172099989570}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 11.9, z: -1}
+  m_LocalPosition: {x: -60.594803, y: -6.7876463, z: -1}
   m_LocalScale: {x: 1.9728854, y: 1.9728854, z: 1.9728854}
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,8 +63,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61852062086945912
-BoxCollider2D:
+--- !u!60 &60400363105071726
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -85,9 +85,12 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.5}
+      - {x: -0.5, y: -0.000000021855694}
+      - {x: 0.00000004371139, y: -0.5}
+      - {x: 0.5, y: 0.0000000059624403}
 --- !u!114 &114472273832384200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -99,9 +102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4318145681e4b47bc905b7eff8b9e2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorBool: 0
+  comboTimer: 4
+  score: 10
   minDist: 1
-  movementSpeed: 5
+  movementSpeed: 10
+  manager: {fileID: 0}
 --- !u!212 &212941671096856442
 SpriteRenderer:
   m_ObjectHideFlags: 1

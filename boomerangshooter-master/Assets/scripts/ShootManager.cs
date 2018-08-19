@@ -24,7 +24,7 @@ public class ShootManager : MonoBehaviour {
 
     private void Update()
     {
-        //Debug.Log("Number of shots in existence: " + allShots.Count);
+        // Debug.Log("Number of shots in existence: " + allShots.Count);
     }
 
     public void Recall()
