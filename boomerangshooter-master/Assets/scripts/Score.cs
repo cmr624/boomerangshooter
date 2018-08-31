@@ -31,66 +31,35 @@ public class Score : MonoBehaviour
 	
 	// Use this for initialization
 	void Start ()
-	{
-        if (onStart)
-        {
-    
-            start.enabled = true;
-            description.enabled = true;
-            ammo.enabled = false;
-            combo.enabled = false;
-            score.enabled = false;
-            wave.enabled = false;
-            waveNext.enabled = false;
-            dash.enabled = false;
-            restart.enabled = false;
-            Time.timeScale = 0;
-
-        }
+	{  
+        onStart = false;
 		shootScript = GetComponent<Shoot>();
 		pm = GetComponent<PlayerManager>();
 		sm = GetComponent<ShootManager>();
 		comboManager = GetComponent<Combo>();
-        spawner = GetComponent<SpawnEnemiesInWaves>();
+        //spawner = GetComponent<SpawnEnemiesInWaves>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-        if (!onStart)
+
+        //wave.text = "WAVE " + (spawner.nextWave + 1);
+        combo.text = "COMBO " + comboManager.comboNum;
+        String ammoString = Math.Abs(sm.allShots.Count - shootScript.ammo).ToString();
+        ammo.text = "SHOTS " + ammoString;
+        score.text = "SCORE " + scoreNum;
+        if (pm.player.GetComponent<move>().currentDashCooldownTime < 0)
         {
-            wave.text = "WAVE " + (spawner.nextWave + 1);
-            combo.text = "COMBO " + comboManager.comboNum;
-            String ammoString = Math.Abs(sm.allShots.Count - shootScript.ammo).ToString();
-            ammo.text = "SHOTS " + ammoString;
-            score.text = "SCORE " + scoreNum;
-            if (pm.player.GetComponent<move>().currentDashCooldownTime < 0)
-            {
-                dash.color = new Color(255f, 0f, 0f);
-                dash.text = "DASH READY";
-            }
-            else
-            {
-                dash.color = new Color(255f, 255f, 255f);
-                dash.text = "READY IN " + Mathf.Round(pm.player.GetComponent<move>().currentDashCooldownTime);
-            }
+            dash.color = new Color(255f, 0f, 0f);
+            dash.text = "DASH READY";
         }
         else
         {
-            if (Input.GetButtonDown("Jump"))
-            {
-                Time.timeScale = 1;
-                start.enabled = false;
-                description.enabled = false;
-                waveNext.enabled = true;
-                ammo.enabled = true;
-                combo.enabled = true;
-                score.enabled = true;
-                wave.enabled = true;
-                dash.enabled = true;
-                onStart = false;
-            }
+            dash.color = new Color(255f, 255f, 255f);
+            dash.text = "READY IN " + Mathf.Round(pm.player.GetComponent<move>().currentDashCooldownTime);
         }
+ 
         if(pm.player.GetComponent<move>().restartBool)
         {
             SceneManager.LoadScene("newstyletest");

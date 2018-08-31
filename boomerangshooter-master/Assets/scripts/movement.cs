@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Timeline;
-
+using TMPro;
 public class movement : MonoBehaviour
 {
 
+    private Shaker Shaker;
+    private GameObject cam;
+    public float deathCamShake;
+    public float stunCameraShake;
 
-	private Transform player;
+    private Transform player;
 	private bool isStunned;
 	private bool isDead;
 	private float stunnedTimer;
@@ -25,16 +29,30 @@ public class movement : MonoBehaviour
 	private Rigidbody2D rb;
 
 	private Vector2 frozenPos;
-	
-	
+
+    public GameObject FloatingTextPrefab;
+
+    public float magnitudeX;
+    public float magnitudeY;
+
+    private ParticleSystem ps;
+    private ParticleSystem.MainModule psMain;
 	// Use this for initialization
 	void Start ()
 	{
-		player = GameObject.FindGameObjectWithTag("Player").transform;
+        manager = GameObject.FindGameObjectWithTag("Manager");
+        ps = GetComponent<ParticleSystem>();
+        psMain = ps.main;
+        //psMain.startColor = new Color(1, 0, 0, 1);
+        cam = GameObject.FindGameObjectWithTag("MainCamera");
+        Shaker = cam.GetComponent<Shaker>();
+        Shaker.magnitudeX = magnitudeX;
+        Shaker.magnitudeY = magnitudeY;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
 		rb = GetComponent<Rigidbody2D>();
 		stunnedTimer = 5f;
-		deathTimer = .9f;
-		
+		deathTimer = .4f;
+        transform.position = new Vector3(transform.position.x, transform.position.y, -1f);
 		// if the enemy is in a stunned state
 		isStunned = false;
 		isDead = false;
@@ -43,7 +61,8 @@ public class movement : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!isStunned)
+        psMain.startColor = new Color(255f, 0f, 0f);
+        if (!isStunned)
 		{
 			Vector2 distance = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y);
 			distance = distance.normalized;
@@ -53,7 +72,10 @@ public class movement : MonoBehaviour
 		
 		if (isStunned)
 		{
-            //freeze the position
+            
+            //freeze the position 
+
+
             //transform.position = frozenPos;
             rb.velocity = new Vector2(0f, 0f);
             rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
@@ -65,10 +87,10 @@ public class movement : MonoBehaviour
 				if (!isDead)
 				{
 					isStunned = false;
-					//dev art stuff, add animator here
-					GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 255f);
-					//reset timer
-					stunnedTimer = 5f;
+                    //dev art stuff, add animator here
+                    GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 0f);
+                    //reset timer
+                    stunnedTimer = 5f;
                     rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 				}
 			}
@@ -79,16 +101,25 @@ public class movement : MonoBehaviour
             deathTimer -= Time.deltaTime;
 			if (deathTimer < 0)
             {
+                
                 manager.GetComponent<Score>().scoreNum += score;
                 manager.GetComponent<Combo>().comboTimer = comboTimer;
                 manager.GetComponent<Combo>().comboNum += 1;
+                
+                GameObject.FindGameObjectWithTag("Player").GetComponent<move>().currentDashCooldownTime = -1f;
+                GetComponent<SpriteRenderer>().enabled = false;
                 Destroy(this.gameObject);
-                GameObject.FindGameObjectWithTag("Player").GetComponent<move>().currentDashCooldownTime = -1f;
-                GameObject.FindGameObjectWithTag("Player").GetComponent<move>().currentDashCooldownTime = -1f;
             }
         }
 	}
-
+    void ShowFloatingText()
+    {
+        if (FloatingTextPrefab)
+        {
+            GameObject go = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
+            go.GetComponent<TextMeshPro>().text = score.ToString();
+        }
+    }
 	void OnDestroy()
 	{
 		
@@ -103,17 +134,27 @@ public class movement : MonoBehaviour
 		{
 			if (!col.gameObject.GetComponent<State>().state)
 			{
-			
-				GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 0f);
+                if (GetComponent<Renderer>().IsVisibleFrom(cam.GetComponent<Camera>()) && !isStunned)
+                { 
+                    Shaker.Shake(stunCameraShake);
+                }
+                GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 0f);
 				isStunned = true;
 				//frozenPos = transform.position;
 			}
 			else if (col.gameObject.GetComponent<State>().state && isStunned)
 			{
-				
-				isDead = true;
-				GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f);
-			}
+                if (GetComponent<Renderer>().IsVisibleFrom(cam.GetComponent<Camera>()))
+                {
+                    Shaker.Shake(deathCamShake);
+                    GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
+                    ps.Play();
+                    ShowFloatingText();
+                }
+                isDead = true;
+                GetComponent<SpriteRenderer>().enabled = false;
+                //GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f);
+            }
 			else
 			{	
 

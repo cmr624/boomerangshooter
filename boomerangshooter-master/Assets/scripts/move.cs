@@ -20,6 +20,8 @@ public class move : MonoBehaviour {
 
 	private Vector3 pos;
 
+    public bool permaDeath;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -35,13 +37,23 @@ public class move : MonoBehaviour {
 	{
 		pos.x = speed * Input.GetAxis("Horizontal");
 		pos.y = speed * Input.GetAxis("Vertical");
-		rb.velocity = pos;
+        if (Input.GetAxis("Horizontal") == 0 & Input.GetAxis("Vertical") == 0)
+        {
+            //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            rb.velocity = (new Vector2(0f, 0f));
+
+        }
+        else
+        {
+           // rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            rb.velocity = pos;
+        }
 
         currentDashCooldownTime -= Time.deltaTime;
         if((currentDashCooldownTime < 0f) & (Input.GetButtonDown("Jump")))
         {
-            pos *= (dash * 100);
-            rb.AddForce(pos);
+            pos *= (dash);
+            rb.AddForce(pos, ForceMode2D.Impulse);
             currentDashCooldownTime = dashcooldown;
         }
         if (restart.enabled & Input.GetKey((KeyCode.R)))
@@ -80,9 +92,12 @@ public class move : MonoBehaviour {
     {
         if (col.gameObject.tag == "Enemy")
         {
-            Time.timeScale = .1f;
-            //GAME OVER
-            restart.enabled = true;
+            if (permaDeath)
+            {
+                Time.timeScale = .1f;
+                //GAME OVER
+                restart.enabled = true;
+            }
         }
     }
 }

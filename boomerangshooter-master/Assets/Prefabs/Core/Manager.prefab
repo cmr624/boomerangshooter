@@ -24,11 +24,10 @@ GameObject:
   - component: {fileID: 114521061905150082}
   - component: {fileID: 114066285810339642}
   - component: {fileID: 114339321060584826}
-  - component: {fileID: 114607419273424016}
   - component: {fileID: 212012720754469622}
   m_Layer: 0
   m_Name: Manager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,9 +72,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1798527347886956, guid: 55fb9ec86ae11484490a650ef9931b59,
     type: 2}
   speed: 20
-  backSpeed: 40
   player: {fileID: 0}
-  ammo: 1
+  ammo: 77
 --- !u!114 &114339321060584826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,33 +101,13 @@ MonoBehaviour:
   combo: {fileID: 0}
   score: {fileID: 0}
   ammo: {fileID: 0}
+  wave: {fileID: 0}
+  dash: {fileID: 0}
+  start: {fileID: 0}
+  description: {fileID: 0}
+  restart: {fileID: 0}
+  waveNext: {fileID: 0}
   scoreNum: 0
---- !u!114 &114607419273424016
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1514837116340462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5e7b0fc3ace8465fbcfb641c188503e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waves:
-  - name: Level 0
-    enemy: {fileID: 1223172099989570, guid: e089e715a89f0470fb544ecb916105f1, type: 2}
-    count: 5
-    rate: 1
-  - name: Level 1
-    enemy: {fileID: 1223172099989570, guid: e089e715a89f0470fb544ecb916105f1, type: 2}
-    count: 10
-    rate: 1
-  - name: Level 2
-    enemy: {fileID: 1223172099989570, guid: e089e715a89f0470fb544ecb916105f1, type: 2}
-    count: 30
-    rate: 10
-  timeBetweenWaves: 1
-  waveCountdown: 1
 --- !u!114 &114879463404728292
 MonoBehaviour:
   m_ObjectHideFlags: 1

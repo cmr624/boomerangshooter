@@ -38,14 +38,16 @@ public class SpawnEnemiesInWaves : MonoBehaviour
     public float bounds = 10f;
     private Shoot shoot;
     private bool start;
+    private GameObject Manager;
     [HideInInspector]
 	public SpawnState state = SpawnState.COUNTING;
 	// Use this for initialization
 	void Start ()
 	{
 		waveCountdown = timeBetweenWaves;
-        start = true;
-        shoot = GetComponent<Shoot>();
+        start = false;
+        Manager = GameObject.FindGameObjectWithTag("Manager");
+        shoot = Manager.GetComponent<Shoot>();
 
     }
 	
@@ -169,8 +171,9 @@ public class SpawnEnemiesInWaves : MonoBehaviour
 	void SpawnEnemy(GameObject enemy, Vector2 range)
 	{
         Vector2 positionClose = transform.position - new Vector3(Random.Range(-bounds, bounds), Random.Range(-bounds, bounds));
-        while(Vector2.Distance(positionClose, PlayerManager.Instance.player.transform.position) < 10f)
+        if(Vector2.Distance(positionClose, PlayerManager.Instance.player.transform.position) < 10f)
         {
+            Debug.Log("IM A PROBLEM");
             positionClose = transform.position - new Vector3(Random.Range(-bounds, bounds), Random.Range(-bounds, bounds));
         }
 		GameObject e = Instantiate(enemy, positionClose, transform.rotation);
